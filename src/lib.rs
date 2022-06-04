@@ -20,17 +20,15 @@ pub fn hello(name: &str) {
 
 #[wasm_bindgen]
 pub async fn request(path: String) -> js_sys::Promise {
-    let url = path.clone();
-
-    let res = reqwest::get(url).await;
+    let res = reqwest::get(path).await;
     if res.is_err() {
-        alert("error happen");
+        alert("error!!");
         return js_sys::Promise::reject(&"error".into());
     }
     let data = res.unwrap().text().await;
     
     match data {
-        Ok(s) => js_sys::Promise::resolve(&s.to_string().into()),
+        Ok(s) => js_sys::Promise::resolve(&s.into()),
         Err(_) => js_sys::Promise::reject(&"fetch error".into())
     }
 }
